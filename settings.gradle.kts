@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Accordion"
 include(":sample")
- 
+include(":accordion")
