@@ -21,20 +21,13 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.scale
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
-import kotlin.math.max
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,37 +67,14 @@ private fun FoldPreview() {
 
 @Preview
 @Composable
-private fun Collapse() {
-    var scale by remember { mutableFloatStateOf(1f) }
+private fun SqueezePreview() {
     BasicText(
         modifier = Modifier
-//            .height(120.dp)
-            .layout { measurable, constraints ->
-                if (constraints.hasBoundedHeight) {
-                    val p = measurable.measure(
-                        constraints.copy(maxHeight = Constraints.Infinity)
-                    )
-                    val pHeight = p.height
-                    val myHeight = if (pHeight > constraints.maxHeight)
-                        constraints.minHeight
-                    else
-                        pHeight
-                    scale = myHeight.toFloat() / pHeight
-                    layout(p.width, myHeight) {
-                        p.place(0, 0)
-                    }
-                } else {
-                    val p = measurable.measure(constraints)
-                    scale = 1f
-                    layout(p.width, p.height) {
-                        p.place(0, 0)
-                    }
-                }
-            }
-            .drawWithContent {
-                scale(scaleX = 1f, scaleY = scale, pivot = Offset.Zero) {
-                    this@drawWithContent.drawContent()
-                }
+            .height(40.dp)
+            .squeeze {
+                accordionSqueeze(it, 4)
+//                scaleEffect(it)
+//                bottomVisible(it)
             }
             .background(Color.White),
         text = "Collapsing section\n" +

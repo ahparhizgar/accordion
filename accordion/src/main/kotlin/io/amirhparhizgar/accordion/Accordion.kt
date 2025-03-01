@@ -26,7 +26,7 @@ public fun Modifier.accordion(
         }
     }
     .drawWithContent {
-        accordionLogic(
+        accordion(
             originalHeight = size.height,
             width = size.width,
             foldDegree = foldDegree,
@@ -35,7 +35,7 @@ public fun Modifier.accordion(
     }
 
 
-internal fun ContentDrawScope.accordionLogic(
+public fun ContentDrawScope.accordion(
     originalHeight: Float,
     width: Float,
     foldDegree: Float,
@@ -53,7 +53,7 @@ internal fun ContentDrawScope.accordionLogic(
                 clipRect(0f, oneNHeight * (2 * i), width, oneNHeight * (2 * i + 1))
             }
         ) {
-            this@accordionLogic.drawContent()
+            this@accordion.drawContent()
             drawRect(Color.Black.copy(alpha = 0.2f * sin(r)))
         }
         withTransform(
@@ -63,7 +63,7 @@ internal fun ContentDrawScope.accordionLogic(
                 clipRect(0f, oneNHeight * (2 * i + 1), width, oneNHeight * (2 * i + 2))
             }
         ) {
-            this@accordionLogic.drawContent()
+            this@accordion.drawContent()
         }
     }
 }
