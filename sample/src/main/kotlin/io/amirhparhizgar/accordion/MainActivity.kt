@@ -57,13 +57,14 @@ private fun FoldPreview() {
     Column {
         BasicText(
             modifier = Modifier
-                .accordion(degreeAnim % 90)
+                .accordion(foldDegree = degreeAnim % 91, n = 1)
                 .background(
                     Brush.linearGradient(
                         Pair(0f, Color.White),
                         Pair(1f, Color.Black)
                     )
-                ).background(Color.White)
+                )
+                .background(Color.White)
                 .clickable {
                     foldDegree += 10
                 },

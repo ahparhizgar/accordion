@@ -8,12 +8,10 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-fun Modifier.accordion(
+public fun Modifier.accordion(
     foldDegree: Float,
-    n: Int = 4
+    n: Int = 2
 ): Modifier =
-    this.then(
-        Modifier
 //        .layout { measurable, constraints ->
 //            val r = PI.toFloat() * foldDegree / 180f
 //            val intrinsicHeight = measurable.minIntrinsicHeight(constraints.maxWidth)
@@ -23,47 +21,30 @@ fun Modifier.accordion(
 //                placeable.place(0,0)
 //            }
 //        }
-            .drawWithContent {
-                val r = PI.toFloat() * foldDegree / 180f
-                val m = android.graphics.Matrix()
-                val oneNHeight = size.height / n
-                val gap = (size.height - size.height * cos(r)) / n
-                withTransform(
-                    {
-                        rotation(top = 0f, m = m, r = -r, p = 0f, oneNHeight)
-                        clipRect(0f, oneNHeight * 0, size.width, oneNHeight * 1)
-                    }
-                ) {
-                    this@drawWithContent.drawContent()
-                    drawRect(Color.Black.copy(alpha = 0.2f * sin(r)))
+    this.drawWithContent {
+        val r = PI.toFloat() * foldDegree / 180f
+        val m = android.graphics.Matrix()
+        val oneNHeight = size.height / (n * 2)
+        val gap = (size.height - size.height * cos(r)) / (n * 2)
+        repeat(n) { i ->
+            withTransform(
+                {
+                    translate(top = -2 * i * gap)
+                    rotation(top = 2 * i * oneNHeight, m = m, r = -r, p = 0f, oneNHeight)
+                    clipRect(0f, oneNHeight * (2 * i), size.width, oneNHeight * (2 * i + 1))
                 }
-                withTransform(
-                    {
-                        translate(top = -2 * gap)
-                        rotation(1 * oneNHeight, m = m, r = r, p = 1f, oneNHeight)
-                        clipRect(0f, oneNHeight * 1, size.width, oneNHeight * 2)
-                    }
-                ) {
-                    this@drawWithContent.drawContent()
-                }
-                withTransform(
-                    {
-                        translate(top = -2 * gap)
-                        rotation(top = 2 * oneNHeight, m = m, r = -r, p = 0f, oneNHeight)
-                        clipRect(0f, oneNHeight * 2, size.width, oneNHeight * 3)
-                    }
-                ) {
-                    this@drawWithContent.drawContent()
-                    drawRect(Color.Black.copy(alpha = 0.2f * sin(r)))
-                }
-                withTransform(
-                    {
-                        translate(top = -4 * gap)
-                        rotation(top = 3 * oneNHeight, m = m, r = r, p = 1f, oneNHeight)
-                        clipRect(0f, oneNHeight * 3, size.width, oneNHeight * 4)
-                    }
-                ) {
-                    this@drawWithContent.drawContent()
-                }
+            ) {
+                this@drawWithContent.drawContent()
+                drawRect(Color.Black.copy(alpha = 0.2f * sin(r)))
             }
-    )
+            withTransform(
+                {
+                    translate(top = -(2 * i + 2) * gap)
+                    rotation(top = (2 * i + 1) * oneNHeight, m = m, r = r, p = 1f, oneNHeight)
+                    clipRect(0f, oneNHeight * (2 * i + 1), size.width, oneNHeight * (2 * i + 2))
+                }
+            ) {
+                this@drawWithContent.drawContent()
+            }
+        }
+    }
