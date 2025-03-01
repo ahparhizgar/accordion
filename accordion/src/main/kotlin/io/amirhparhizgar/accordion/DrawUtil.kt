@@ -10,10 +10,10 @@ internal fun DrawTransform.rotation(
     top: Float,
     m: android.graphics.Matrix,
     r: Float,
-    p: Float,
+    topRatio: Float,
     height: Float
 ) {
-    m.setRotation(top, size.width, height, p, r)
+    m.setRotation(top, size.width, height, topRatio, r)
     transform(Matrix().apply { setFrom(m) })
 }
 
@@ -21,7 +21,7 @@ internal fun android.graphics.Matrix.setRotation(
     top: Float,
     width: Float,
     height: Float,
-    p: Float,
+    topRatio: Float,
     rad: Float,
     cameraHeight: Float = 700f
 ): Pair<Float, Float> {
@@ -37,31 +37,22 @@ internal fun android.graphics.Matrix.setRotation(
         0f,
         top + height
     )
-
-    fun moveInZ(
-        y: Float,
-        z: Float
-    ): Float {
-        val distanceFromCenter = (height * 4 * cos - (y - top)) / 2
-        val d = distanceFromCenter * cameraHeight / (cameraHeight - z)
-        return y - (d - distanceFromCenter)
-    }
-
-    val topHeight = height * p * sin
+    val iTopRatio = 1f - topRatio
+    val topHeight = height * sin * topRatio
     val topFactor = (cameraHeight + topHeight) / cameraHeight
     val topOffset = (width - width * topFactor) / 2
-    val bottomHeight = height * (1 - p) * sin
+    val bottomHeight = height * iTopRatio * sin
     val bottomFactor = (cameraHeight - bottomHeight) / cameraHeight
     val bottomOffset = (width - width * bottomFactor) / 2
     val dst = floatArrayOf(
         -topOffset,
-        moveInZ(top + height * p * (1 - cos), -height * p * sin),
+        top + height * (1 - cos) * topRatio,
         width + topOffset,
-        moveInZ(top + height * p * (1 - cos), -height * p * sin),
+        top + height * (1 - cos) * topRatio,
         width + bottomOffset,
-        moveInZ(top + height - height * (1 - cos) * (1 - p), height * (1 - p) * sin),
+        top + height - height * (1 - cos) * iTopRatio,
         -bottomOffset,
-        moveInZ(top + height - height * (1 - cos) * (1 - p), height * (1 - p) * sin),
+        top + height - height * (1 - cos) * iTopRatio,
     )
     val pointCount = 4
     setPolyToPoly(src, 0, dst, 0, pointCount)

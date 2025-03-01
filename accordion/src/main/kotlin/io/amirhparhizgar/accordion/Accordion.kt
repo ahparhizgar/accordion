@@ -30,7 +30,7 @@ public fun Modifier.accordion(
             withTransform(
                 {
                     translate(top = -2 * i * gap)
-                    rotation(top = 2 * i * oneNHeight, m = m, r = -r, p = 0f, oneNHeight)
+                    rotation(top = 2 * i * oneNHeight, m = m, r = -r, topRatio = 0f, oneNHeight)
                     clipRect(0f, oneNHeight * (2 * i), size.width, oneNHeight * (2 * i + 1))
                 }
             ) {
@@ -40,7 +40,7 @@ public fun Modifier.accordion(
             withTransform(
                 {
                     translate(top = -(2 * i + 2) * gap)
-                    rotation(top = (2 * i + 1) * oneNHeight, m = m, r = r, p = 1f, oneNHeight)
+                    rotation(top = (2 * i + 1) * oneNHeight, m = m, r = r, topRatio = 1f, oneNHeight)
                     clipRect(0f, oneNHeight * (2 * i + 1), size.width, oneNHeight * (2 * i + 2))
                 }
             ) {
