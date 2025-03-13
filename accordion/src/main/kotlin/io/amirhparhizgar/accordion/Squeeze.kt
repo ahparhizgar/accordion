@@ -75,7 +75,7 @@ fun ContentDrawScope.accordionSqueeze(scale: Float, n: Int) {
         originalHeight = size.height,
         width = size.width,
         foldDegree = acos(scale) / PI.toFloat() * 180,
-        n = 2
+        n = n
     )
 }
 
@@ -85,7 +85,7 @@ fun ContentDrawScope.scalingSqueeze(scale: Float) {
     }
 }
 
-private fun ContentDrawScope.bottomVisibleSqueeze(scale: Float) {
+fun ContentDrawScope.bottomVisibleSqueeze(scale: Float) {
     translate(top = size.height * scale - size.height) {
         this@bottomVisibleSqueeze.drawContent()
     }

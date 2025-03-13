@@ -72,9 +72,9 @@ private fun SqueezePreview() {
         modifier = Modifier
             .height(40.dp)
             .squeeze {
-                accordionSqueeze(it, 4)
-//                scaleEffect(it)
-//                bottomVisible(it)
+                accordionSqueeze(it, 1)
+//                scalingSqueeze(it)
+//                bottomVisibleSqueeze(it)
             }
             .background(Color.White),
         text = "Collapsing section\n" +
