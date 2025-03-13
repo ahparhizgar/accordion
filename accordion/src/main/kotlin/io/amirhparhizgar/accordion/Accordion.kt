@@ -7,19 +7,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.layout
-import kotlin.math.PI
+import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
 
 public fun Modifier.accordion(
-    foldDegree: Float,
+    scale: Float,
     n: Int = 2,
     resize: Boolean = true
 ): Modifier = this
     .layout { measurable, constraints ->
         val placeable = measurable.measure(constraints)
-        val r = PI.toFloat() * foldDegree / 180f
+        val r = acos(scale)
         val newHeight = placeable.height * cos(r)
         layout(placeable.width, if (resize) newHeight.roundToInt() else placeable.height) {
             placeable.place(x = 0, y = 0)
@@ -29,7 +29,7 @@ public fun Modifier.accordion(
         accordion(
             originalHeight = size.height,
             width = size.width,
-            foldDegree = foldDegree,
+            scale = scale,
             n = n
         )
     }
@@ -38,10 +38,10 @@ public fun Modifier.accordion(
 public fun ContentDrawScope.accordion(
     originalHeight: Float,
     width: Float,
-    foldDegree: Float,
+    scale: Float,
     n: Int
 ) {
-    val r = PI.toFloat() * foldDegree / 180f
+    val r = acos(scale)
     val m = Matrix()
     val oneNHeight = originalHeight / (n * 2)
     val gap = (originalHeight - originalHeight * cos(r)) / (n * 2)

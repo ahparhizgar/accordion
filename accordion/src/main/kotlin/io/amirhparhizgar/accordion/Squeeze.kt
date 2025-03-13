@@ -16,8 +16,6 @@ import androidx.compose.ui.node.DrawModifierNode
 import androidx.compose.ui.node.LayoutModifierNode
 import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.unit.Constraints
-import kotlin.math.PI
-import kotlin.math.acos
 
 fun Modifier.squeeze(effect: ContentDrawScope.(scale: Float) -> Unit): Modifier =
     this then SqueezeElement(effect)
@@ -70,22 +68,22 @@ class SqueezeNode(var onDraw: ContentDrawScope.(Float) -> Unit) :
     }
 }
 
-fun ContentDrawScope.accordionSqueeze(scale: Float, n: Int) {
+public fun ContentDrawScope.accordionSqueeze(scale: Float, n: Int) {
     accordion(
         originalHeight = size.height,
         width = size.width,
-        foldDegree = acos(scale) / PI.toFloat() * 180,
+        scale = scale,
         n = n
     )
 }
 
-fun ContentDrawScope.scalingSqueeze(scale: Float) {
+public fun ContentDrawScope.scalingSqueeze(scale: Float) {
     scale(scaleY = scale, scaleX = 1f, pivot = Offset.Zero) {
         this@scalingSqueeze.drawContent()
     }
 }
 
-fun ContentDrawScope.bottomVisibleSqueeze(scale: Float) {
+public fun ContentDrawScope.bottomVisibleSqueeze(scale: Float) {
     translate(top = size.height * scale - size.height) {
         this@bottomVisibleSqueeze.drawContent()
     }

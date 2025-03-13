@@ -46,12 +46,12 @@ class MainActivity : ComponentActivity() {
 private fun FoldPreview() {
     var foldDegree by remember { mutableStateOf(80f) }
     val anim = rememberInfiniteTransition()
-    val degreeAnim by
-    anim.animateFloat(0f, 90f, InfiniteRepeatableSpec(tween(2000), RepeatMode.Reverse))
+    val ratio by
+    anim.animateFloat(1f, 0f, InfiniteRepeatableSpec(tween(2000), RepeatMode.Reverse))
     Column(Modifier.size(200.dp)) {
         BasicText(
             modifier = Modifier
-                .accordion(foldDegree = degreeAnim % 91, n = 1)
+                .accordion(scale = ratio, n = 1)
                 .background(Color.White)
                 .clickable {
                     foldDegree += 10
