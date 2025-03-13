@@ -51,7 +51,7 @@ private fun FoldPreview() {
     Column(Modifier.size(200.dp)) {
         BasicText(
             modifier = Modifier
-                .accordion(scale = ratio, n = 1)
+                .accordion(scale = ratio)
                 .background(Color.White)
                 .clickable {
                     foldDegree += 10
@@ -72,7 +72,7 @@ private fun SqueezePreview() {
         modifier = Modifier
             .height(40.dp)
             .squeeze {
-                accordionSqueeze(it, 1)
+                accordionSqueeze(it)
 //                scalingSqueeze(it)
 //                bottomVisibleSqueeze(it)
             }

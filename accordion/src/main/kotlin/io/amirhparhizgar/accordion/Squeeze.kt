@@ -68,12 +68,15 @@ class SqueezeNode(var onDraw: ContentDrawScope.(Float) -> Unit) :
     }
 }
 
-public fun ContentDrawScope.accordionSqueeze(scale: Float, n: Int) {
+public fun ContentDrawScope.accordionSqueeze(
+    scale: Float,
+    countStrategy: AccordionFoldStrategy = AccordionFoldStrategy.Default
+) {
     accordion(
         originalHeight = size.height,
         width = size.width,
         scale = scale,
-        n = n
+        countStrategy = countStrategy
     )
 }
 
