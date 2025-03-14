@@ -16,13 +16,13 @@ import kotlin.math.roundToInt
 import kotlin.math.sin
 
 public fun Modifier.accordion(
-    scale: Float,
+    scale: () -> Float,
     countStrategy: AccordionFoldStrategy = AccordionFoldStrategy.Default,
     resize: Boolean = true
 ): Modifier = this
     .layout { measurable, constraints ->
         val placeable = measurable.measure(constraints)
-        val r = acos(scale)
+        val r = acos(scale())
         val newHeight = placeable.height * cos(r)
         layout(placeable.width, if (resize) newHeight.roundToInt() else placeable.height) {
             placeable.place(x = 0, y = 0)
@@ -32,7 +32,7 @@ public fun Modifier.accordion(
         accordion(
             originalHeight = size.height,
             width = size.width,
-            scale = scale,
+            scale = scale(),
             countStrategy = countStrategy
         )
     }

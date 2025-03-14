@@ -51,7 +51,7 @@ private fun FoldPreview() {
     Column(Modifier.size(200.dp)) {
         BasicText(
             modifier = Modifier
-                .accordion(scale = ratio)
+                .accordion(scale = { ratio })
                 .background(Color.White)
                 .clickable {
                     foldDegree += 10
