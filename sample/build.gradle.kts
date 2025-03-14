@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.amirhparhizgar.accordion"
+    namespace = "io.amirhparhizgar.accordion.sample"
     compileSdk = 35
 
     defaultConfig {

@@ -75,7 +75,7 @@ public fun ContentDrawScope.accordionSqueeze(
     accordion(
         originalHeight = size.height,
         width = size.width,
-        scale = scale,
+        newHeight = size.height * scale,
         countStrategy = countStrategy
     )
 }

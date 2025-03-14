@@ -1,57 +1,46 @@
-package io.amirhparhizgar.accordion
+package io.amirhparhizgar.accordion.sample
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.InfiniteRepeatableSpec
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.DraggableState
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            Column(Modifier.padding(WindowInsets.systemBars.asPaddingValues())) {
-                FoldPreview()
-            }
-        }
-    }
-}
+import io.amirhparhizgar.accordion.accordion
+import io.amirhparhizgar.accordion.accordionSqueeze
+import io.amirhparhizgar.accordion.squeeze
 
 @Preview
 @Composable
-private fun FoldPreview() {
-    var foldDegree by remember { mutableStateOf(80f) }
+fun FoldPreview() {
+    var foldDegree by remember { mutableFloatStateOf(80f) }
     val anim = rememberInfiniteTransition()
     val ratio by
     anim.animateFloat(1f, 0f, InfiniteRepeatableSpec(tween(2000), RepeatMode.Reverse))
     Column(Modifier.size(200.dp)) {
         BasicText(
             modifier = Modifier
-                .accordion(scale = { ratio })
+                .accordion(height = { ratio })
                 .background(Color.White)
                 .clickable {
                     foldDegree += 10
@@ -82,4 +71,23 @@ private fun SqueezePreview() {
                 "Line 3"
     )
 
+}
+
+@Preview
+@Composable
+private fun DraggableSample() {
+    var diff by remember { mutableFloatStateOf(0f) }
+    Box(
+        Modifier
+            .size(100.dp)
+            .draggable(remember { DraggableState { diff += it } }, Orientation.Vertical)
+    ) {
+        Image(
+            modifier = Modifier
+                .accordion(height = { (it + diff).coerceIn(0f, it) })
+                .size(100.dp),
+            painter = painterResource(R.mipmap.ic_launcher),
+            contentDescription = null
+        )
+    }
 }

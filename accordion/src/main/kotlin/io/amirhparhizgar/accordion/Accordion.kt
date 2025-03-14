@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Density
@@ -16,14 +17,13 @@ import kotlin.math.roundToInt
 import kotlin.math.sin
 
 public fun Modifier.accordion(
-    scale: () -> Float,
+    height: (Float) -> Float,
     countStrategy: AccordionFoldStrategy = AccordionFoldStrategy.Default,
     resize: Boolean = true
 ): Modifier = this
     .layout { measurable, constraints ->
         val placeable = measurable.measure(constraints)
-        val r = acos(scale())
-        val newHeight = placeable.height * cos(r)
+        val newHeight = height(placeable.height.toFloat())
         layout(placeable.width, if (resize) newHeight.roundToInt() else placeable.height) {
             placeable.place(x = 0, y = 0)
         }
@@ -32,7 +32,7 @@ public fun Modifier.accordion(
         accordion(
             originalHeight = size.height,
             width = size.width,
-            scale = scale(),
+            newHeight = height(size.height),
             countStrategy = countStrategy
         )
     }
@@ -41,10 +41,10 @@ public fun Modifier.accordion(
 public fun ContentDrawScope.accordion(
     originalHeight: Float,
     width: Float,
-    scale: Float,
+    newHeight: Float,
     countStrategy: AccordionFoldStrategy = AccordionFoldStrategy.Default
 ) {
-    val r = acos(scale)
+    val r = acos(newHeight / originalHeight)
     val m = Matrix()
     val n = countStrategy.calculateFoldCount(originalHeight, width, this)
     val oneNHeight = originalHeight / (n * 2)
