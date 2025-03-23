@@ -40,7 +40,7 @@ fun FoldPreview() {
     Column(Modifier.size(200.dp)) {
         BasicText(
             modifier = Modifier
-                .accordion(height = { ratio })
+                .accordion(height = { ratio * it })
                 .background(Color.White)
                 .clickable {
                     foldDegree += 10
@@ -86,6 +86,33 @@ private fun DraggableSample() {
             modifier = Modifier
                 .accordion(height = { (it + diff).coerceIn(0f, it) })
                 .size(100.dp),
+            painter = painterResource(R.mipmap.ic_launcher),
+            contentDescription = null
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun SqueezeSample() {
+    Column(Modifier.height(200.dp)) {
+        repeat(3) {
+            Image(
+                modifier = Modifier
+                    .squeeze { accordionSqueeze(it) },
+                painter = painterResource(R.mipmap.ic_launcher),
+                contentDescription = null
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun ZeroHeightTest() {
+    Box(Modifier.size(100.dp)) {
+        Image(
+            modifier = Modifier.accordion({ 0f }),
             painter = painterResource(R.mipmap.ic_launcher),
             contentDescription = null
         )

@@ -20,20 +20,17 @@ import androidx.compose.ui.unit.Constraints
 fun Modifier.squeeze(effect: ContentDrawScope.(scale: Float) -> Unit): Modifier =
     this then SqueezeElement(effect)
 
-@OptIn(ExperimentalComposeUiApi::class)
 data class SqueezeElement(val onDraw: ContentDrawScope.(Float) -> Unit) :
-    ModifierNodeElement<SqueezeNode>(inspectorInfo = {}) {
+    ModifierNodeElement<SqueezeNode>() {
     override fun create(): SqueezeNode {
         return SqueezeNode(onDraw)
     }
 
-    override fun update(node: SqueezeNode): SqueezeNode {
+    override fun update(node: SqueezeNode) {
         node.onDraw = onDraw
-        return node
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 class SqueezeNode(var onDraw: ContentDrawScope.(Float) -> Unit) :
     LayoutModifierNode, DrawModifierNode, Modifier.Node() {
     private var scale by mutableStateOf(1f)
@@ -47,7 +44,7 @@ class SqueezeNode(var onDraw: ContentDrawScope.(Float) -> Unit) :
             )
             val pHeight = p.height
             val myHeight = if (pHeight > constraints.maxHeight)
-                constraints.minHeight
+                constraints.maxHeight
             else
                 pHeight
             scale = myHeight.toFloat() / pHeight

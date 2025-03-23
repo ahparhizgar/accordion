@@ -44,6 +44,7 @@ public fun ContentDrawScope.accordion(
     newHeight: Float,
     countStrategy: AccordionFoldStrategy = AccordionFoldStrategy.Default
 ) {
+    if (newHeight == 0f) return
     val r = acos(newHeight / originalHeight)
     val m = Matrix()
     val n = countStrategy.calculateFoldCount(originalHeight, width, this)
