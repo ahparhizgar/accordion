@@ -76,7 +76,7 @@ public interface AccordionFoldStrategy {
     fun calculateFoldCount(mainAxisSize: Float, otherAxisSize: Float, density: Density): Int
 
     companion object {
-        val Default = FoldSize(50.dp)
+        val Default = FoldSize(100.dp)
     }
 
     public data class Fixed(val count: Int) : AccordionFoldStrategy {
