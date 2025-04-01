@@ -52,6 +52,8 @@ public fun ContentDrawScope.accordion(
         withTransform(
             {
                 translate(top = -2 * i * gap)
+//                this is multiplatform (not working properly)
+//                transform(rotateTopRad(-r, onNSize))
                 transform(rotation(top = 2 * i * oneNHeight, m = m, r = -r, topRatio = 0f, oneNHeight))
                 clipRect(0f, oneNHeight * (2 * i), width, oneNHeight * (2 * i + 1))
             }
