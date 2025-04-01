@@ -1,11 +1,9 @@
 package io.amirhparhizgar.accordion
 
-import android.graphics.Matrix
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
-import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Density
@@ -46,7 +44,7 @@ public fun ContentDrawScope.accordion(
 ) {
     if (newHeight == 0f) return
     val r = acos(newHeight / originalHeight)
-    val m = Matrix()
+    val m = android.graphics.Matrix()
     val n = countStrategy.calculateFoldCount(originalHeight, width, this)
     val oneNHeight = originalHeight / (n * 2)
     val gap = (originalHeight - originalHeight * cos(r)) / (n * 2)
@@ -54,7 +52,7 @@ public fun ContentDrawScope.accordion(
         withTransform(
             {
                 translate(top = -2 * i * gap)
-                rotation(top = 2 * i * oneNHeight, m = m, r = -r, topRatio = 0f, oneNHeight)
+                transform(rotation(top = 2 * i * oneNHeight, m = m, r = -r, topRatio = 0f, oneNHeight))
                 clipRect(0f, oneNHeight * (2 * i), width, oneNHeight * (2 * i + 1))
             }
         ) {
@@ -64,7 +62,7 @@ public fun ContentDrawScope.accordion(
         withTransform(
             {
                 translate(top = -(2 * i + 2) * gap)
-                rotation(top = (2 * i + 1) * oneNHeight, m = m, r = r, topRatio = 1f, oneNHeight)
+                transform(rotation(top = (2 * i + 1) * oneNHeight, m = m, r = r, topRatio = 1f, oneNHeight))
                 clipRect(0f, oneNHeight * (2 * i + 1), width, oneNHeight * (2 * i + 2))
             }
         ) {
@@ -73,6 +71,7 @@ public fun ContentDrawScope.accordion(
     }
 }
 
+@Suppress("Unused")
 public interface AccordionFoldStrategy {
     fun calculateFoldCount(mainAxisSize: Float, otherAxisSize: Float, density: Density): Int
 

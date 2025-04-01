@@ -12,9 +12,9 @@ internal fun DrawTransform.rotation(
     r: Float,
     topRatio: Float,
     height: Float
-) {
+): Matrix {
     m.setRotation(top, size.width, height, topRatio, r)
-    transform(Matrix().apply { setFrom(m) })
+    return Matrix().apply { setFrom(m) }
 }
 
 internal fun android.graphics.Matrix.setRotation(
