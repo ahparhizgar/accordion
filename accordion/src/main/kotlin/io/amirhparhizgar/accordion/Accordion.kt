@@ -17,9 +17,9 @@ import kotlin.math.sin
 public fun Modifier.accordion(
     height: (Float) -> Float,
     countStrategy: AccordionFoldStrategy = AccordionFoldStrategy.Default,
-    resize: Boolean = true
 ): Modifier = this
     .layout { measurable, constraints ->
+        val resize = false
         val placeable = measurable.measure(constraints)
         val newHeight = height(placeable.height.toFloat())
         layout(placeable.width, if (resize) newHeight.roundToInt() else placeable.height) {
