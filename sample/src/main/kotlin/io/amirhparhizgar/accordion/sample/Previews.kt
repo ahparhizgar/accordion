@@ -24,8 +24,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import io.amirhparhizgar.accordion.AccordionFoldStrategy
 import io.amirhparhizgar.accordion.accordion
 import io.amirhparhizgar.accordion.accordionSqueeze
 import io.amirhparhizgar.accordion.squeeze
@@ -84,7 +87,7 @@ private fun DraggableSample() {
     ) {
         Image(
             modifier = Modifier
-                .accordion(height = { (it + diff).coerceIn(0f, it) })
+                .accordion(height = { (it + diff).coerceIn(0f, it) },AccordionFoldStrategy.Fixed(4))
                 .size(100.dp),
             painter = painterResource(R.mipmap.ic_launcher),
             contentDescription = null
@@ -117,4 +120,14 @@ private fun ZeroHeightTest() {
             contentDescription = null
         )
     }
+}
+
+@Preview(backgroundColor = 0xFFF, showBackground = true)
+@Composable
+private fun MinimalUsage() {
+    BasicText(
+        modifier = Modifier.accordion(height = { original -> original * 0.5f }),
+        text = "1\n2\n3\n4",
+        style = TextStyle.Default.copy(fontSize = 60.sp)
+    )
 }
